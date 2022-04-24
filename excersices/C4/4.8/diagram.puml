@@ -1,0 +1,55 @@
+@startuml
+skinparam monochrome true
+skinparam style strictuml
+hide circle
+
+class Modelo {
+  clave {id}
+  nombre
+  característicaTécnica []
+  fechaInicioComercialización
+  fechaFinComercialización
+}
+
+class Automóvil {
+  numeroChasis {id}
+  numeroMotor
+  fechaFabricación
+  color
+  fechaIngreso
+  precioVenta
+}
+
+class Factura {
+  numero {id}
+  fechaEmisión
+  numeroChasis [1..*]
+  nombreModelo [1..*]
+  precioAcordado [1..*]
+}
+
+class Cliente {
+  CUIT {id}
+  fechaAlta
+  dirección
+}
+
+class Empresa {
+  razónSocial
+}
+
+class PersonaFisica {
+  nombre
+}
+
+Automóvil "0..*"--"1" Modelo : es un
+
+Factura "1"--"1..*" Automóvil : corresponde a
+
+Factura "1"--"1" Cliente : a nombre de
+
+Cliente <|-- Empresa
+Cliente <|-- PersonaFisica
+
+@enduml
+
