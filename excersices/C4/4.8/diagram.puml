@@ -10,6 +10,9 @@ class Modelo {
   fechaInicioComercialización
   fechaFinComercialización
 }
+note left of Modelo::fechaFinComercialización
+opcional
+end note
 
 class Automóvil {
   numeroChasis {id}
