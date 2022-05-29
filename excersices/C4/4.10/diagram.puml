@@ -1,0 +1,64 @@
+@startuml
+skinparam monochrome true
+skinparam style strictuml
+skinparam {
+    roundcorner 5
+    objectBackgroundColor White
+    objectBorderColor black
+    ArrowColor black
+}
+hide circle
+
+object Cliente {
+  DNI {id}
+}
+
+object Articulo {
+  Código {id}
+  Descripción
+  Precio
+}
+object Familia {
+  Código {id}
+  Descripción
+}
+object Fabricante {
+  CUIT {id}
+  Razón Social
+}
+object Descuento {
+  Clave {id}
+  fechaInicioVigencia
+  fechaFinVigencia
+}
+object Compra {
+  /totalDescuento
+  /total
+}
+object ArticuloComprado {
+  cantidad
+  /subtotal
+}
+object PagoConTarjeta {
+  numeroTarjeta
+  fecha
+  códigoAutorización
+}
+
+
+Articulo "0..*" -- "0..*" Familia : de tipo
+Articulo "0..*" -- "1" Fabricante : fabricado por
+
+Compra "0..*" -- "1..*" Articulo : contiene
+ArticuloComprado .. (Compra,Articulo)
+
+Cliente "1"--"0..*" Compra : realiza
+PagoConTarjeta .. (Cliente, Compra)
+
+Articulo "0..*"--"0..*" Descuento : tiene
+Familia "0..*"--"0..*" Descuento : tiene
+Fabricante "0..*"--"0..*" Descuento : tiene
+
+
+@enduml
+

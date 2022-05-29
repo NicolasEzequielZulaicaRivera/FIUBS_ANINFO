@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam style strictuml
+hide empty description
+
+title Estado de la Alarma
+
+state "Desactivada" as D
+state "Activada" as A {
+  state "Esperando" as W
+  state "Vigilante" as V
+}
+
+state "Disparada" as T {
+  state "Comunicando con\nel Propietario" as C
+  state "Confirmando\nFalsa Alarma" as F
+  state "Operativo de\nSeguridad" as O : alertar policia\ny patrullas
+}
+
+state "Operativo\nFinalizado" as P
+ 
+[*] -> D
+
+D --> W : activada
+V <- W : 3 min
+
+V ---> C : movimiento detectado
+
+C --> O : no se puede\ncomunicar
+C --> O : alarma confirmada
+
+
+C -> F : informa falsa alarma
+C -[hidden]> F 
+
+F -> O : clave incorrecta
+
+F -> D : clave correcta 
+
+O --> P : se informa el arribo\nde las patrullas
+P -> [*]
+
+@enduml
+

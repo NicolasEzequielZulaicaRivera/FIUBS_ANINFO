@@ -1,0 +1,55 @@
+@startuml
+skinparam monochrome true
+skinparam style strictuml
+skinparam {
+    roundcorner 5
+    objectBackgroundColor White
+    objectBorderColor black
+    ArrowColor black
+}
+hide circle
+
+object Alumno {
+  padrón {id}
+  nombre
+  apellido
+  fechaIngreso
+}
+object Carrera {
+  numero {id}
+  nombre
+}
+object PlanDeEstudios {
+  código {id}
+  fechaInicioVigencia
+  fechaFinVigencia
+}
+object Materia {
+  código {id}
+  nombre
+}
+object Curso {
+  numero {id}
+  docente
+  vacantes
+}
+object OfertaAcadémica {
+  fechaInicio
+  fechaFin
+}
+
+Alumno "1..*"--"1" Carrera : cursa
+
+Carrera "1" -right-"1..*" PlanDeEstudios : tiene
+
+PlanDeEstudios "1..*"-right-"1..*" Materia : incluye
+
+Materia "0..*"--"0..*" Materia : precede
+
+Materia "1"--"0..*" Curso : se dicta en
+
+Curso "1..*"-left-"1" OfertaAcadémica : ◀ asociado a
+
+Alumno "0..*"--"0..*" Materia : aprobó
+
+@enduml
