@@ -1,0 +1,73 @@
+@startuml
+skinparam monochrome true
+skinparam style strictuml
+hide circle
+
+title Modelo de Dominio
+
+class Producto {
+  código {id}
+  descripción
+  precioVenta
+  /stockActual
+}
+
+class Categoría {
+  identificación {id}
+  descripción
+}
+
+class Deposito {
+  código {id}
+  capacidadMaxima
+}
+
+class CantidadAlmacenada {
+  cantidad
+}
+
+class Cliente {
+  cuit {id}
+  razónSocial
+  teléfono
+}
+
+class Pedido {
+  numero {id}
+  fechaRealizado
+  fechaEntregaDeseada
+}
+
+class ProductoPedido {
+  cantidad
+}
+
+class Factura {
+  identificación {id}
+  fechaEmisión
+  /importeTotal
+}
+
+class ProductoFacturado {
+  cantidad
+  precioVigente
+  /importeTotal
+}
+
+Categoría "0..*" -- "0..1" Categoría : pertenece a
+
+Producto "0..*" -- "1" Categoría : pertenece a
+
+Deposito "0..*" -- "0..*" Producto : almacena
+(Deposito, Producto) .. CantidadAlmacenada
+
+Cliente "1" -- "0..*" Pedido : realiza
+
+Pedido "0..*" -- "1..*" Producto : incluye
+(Pedido, Producto) .. ProductoPedido
+
+Factura "1"--"0..*" ProductoPedido : factura
+(Factura, ProductoPedido) .. ProductoFacturado
+
+@enduml
+

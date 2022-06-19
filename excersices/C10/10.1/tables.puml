@@ -1,0 +1,78 @@
+@startuml
+skinparam monochrome true
+skinparam style strictuml
+hide circle
+
+title Diseño de Bases de Datos
+
+class tbl_productos <<table>> {
+  <<PK>> código
+  <<FK>> id_categoria
+  descripción
+  precioVenta
+}
+
+class tbl_categorias <<table>> {
+  <<PK>> identificación
+  <<FK>> id_supercategoria
+  descripción
+}
+
+class tbl_depositos <<table>> {
+  <<PK>> código
+  capacidadMaxima
+}
+
+class tbl_cantidades_almacenadas <<table>> {
+  <<PK>><<FK>> codigo_deposito
+  <<PK>><<FK>> codigo_producto
+  cantidad
+}
+
+class tbl_clientes <<table>> {
+  <<PK>> cuit
+  razónSocial
+  teléfono
+}
+
+class tbl_pedidos <<table>> {
+  <<PK>> numero
+  <<FK>> cuit_cliente
+  fechaRealizado
+  fechaEntregaDeseada
+}
+
+class tbl_productos_pedidos <<table>> {
+  <<PK>><<FK>> numero_pedido
+  <<PK>><<FK>> codigo_producto
+  cantidad
+}
+
+class tbl_facturas <<table>> {
+  <<PK>> identificación
+  fechaEmisión
+}
+
+class tbl_productos_facturados <<table>> {
+  <<PK>><<FK>> identificación_factura
+  <<PK>><<FK>> codigo_producto
+  <<PK>><<FK>> numero_pedido
+  cantidad
+  precioVigente
+}
+
+tbl_productos "0..*" -- "1" tbl_categorias
+
+tbl_depositos "1" -- "0..*" tbl_cantidades_almacenadas
+tbl_cantidades_almacenadas "0..*" -- "1" tbl_productos
+
+tbl_clientes "1" -- "0..*" tbl_pedidos
+
+tbl_pedidos "1" -- "1..*" tbl_productos_pedidos
+tbl_productos_pedidos "0..*" -- "1" tbl_productos
+
+tbl_facturas "1"--"0..*" tbl_productos_facturados
+tbl_productos_facturados "1"--"1" tbl_productos_pedidos
+
+@enduml
+
